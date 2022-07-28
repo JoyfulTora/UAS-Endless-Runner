@@ -6,31 +6,28 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-
     Player player;
     Text distanceText;
 
     GameObject results;
     Text finalDistanceText;
 
-private void Awake()
-{
-    player = GameObject.Find ("Player").GetComponent<Player>();
-    distanceText = GameObject.Find("DistanceText").GetComponent<Text>();
-    
-    finalDistanceText = GameObject.Find("FinalDistanceText").GetComponent<Text>();
-    results = GameObject.Find("Results");
-    results.SetActive(false);
-
-}
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
+        distanceText = GameObject.Find("DistanceText").GetComponent<Text>();
+
+        finalDistanceText = GameObject.Find("FinalDistanceText").GetComponent<Text>();
+        results = GameObject.Find("Results");
+        results.SetActive(false);
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+
+    }
+
+
     void Update()
     {
         int distance = Mathf.FloorToInt(player.distance);
@@ -45,12 +42,11 @@ private void Awake()
 
     public void Quit()
     {
-        SceneManager.LoadScene("Menu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
 
     public void Retry()
     {
-        SceneManager.LoadScene("SampleScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
     }
-   
 }

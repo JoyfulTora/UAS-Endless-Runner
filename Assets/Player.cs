@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
 
-
+    public LayerMask groundLayerMask;
+    public LayerMask obstacleLayerMask;
 
     // Start is called before the first frame update
     void Start()
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
             Vector2 rayOrigin = new Vector2(pos.x + 0.7f, pos.y);
             Vector2 rayDirection = Vector2.up;
             float rayDistance = velocity.y * Time.fixedDeltaTime;
-            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance);
+            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, groundLayerMask);
 
             if (hit2D.collider != null)
             {
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
 
 
             Vector2 wallOrigin = new Vector2 (pos.x, pos.y);
-            RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime);
+            RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime, groundLayerMask);
             if (wallHit.collider != null)
             {
                 Ground ground = wallHit.collider.GetComponent<Ground>();
@@ -154,7 +155,7 @@ public class Player : MonoBehaviour
         }
 
         Vector2 obstOrigin = new Vector2(pos.x, pos.y);
-        RaycastHit2D obstHitX = Physics2D.Raycast(obstOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime);
+        RaycastHit2D obstHitX = Physics2D.Raycast(obstOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime, obstacleLayerMask);
         if (obstHitX.collider != null)
         {
             Obstacle obstacle = obstHitX.collider.GetComponent<Obstacle>();
@@ -164,7 +165,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        RaycastHit2D obstHitY = Physics2D.Raycast(obstOrigin, Vector2.up, velocity.y * Time.fixedDeltaTime);
+        RaycastHit2D obstHitY = Physics2D.Raycast(obstOrigin, Vector2.up, velocity.y * Time.fixedDeltaTime, obstacleLayerMask);
         if (obstHitY.collider != null)
         {
             Obstacle obstacle = obstHitY.collider.GetComponent<Obstacle>();
@@ -181,5 +182,11 @@ public class Player : MonoBehaviour
     {
         Destroy(obstacle.gameObject);
         velocity.x *= 0.7f;
+    }
+
+    public void hitEnemy()
+    {
+        isDead = true;
+        velocity.x = 0;
     }
 }

@@ -15,6 +15,8 @@ public class Ground : MonoBehaviour
 
     public Obstacle boxTemplate;
 
+    public EnemyScript enemyTemplate;
+
 
     private void Awake()
     {
@@ -110,6 +112,21 @@ public class Ground : MonoBehaviour
             box.transform.position = boxPos;
 
         }
+
+        int enemyNum = Random.Range(0, 4);
+        for (int i=0; i<enemyNum; i++)
+        {
+            GameObject enemy = Instantiate(enemyTemplate.gameObject);
+            float y = goGround.groundHeight;
+            float halfWidth = goCollider.size.x / 2 - 1;
+            float left = go.transform.position.x - halfWidth;
+            float right = go.transform.position.x + halfWidth;
+            float x = Random.Range(left, right);
+            Vector2 enemyPos = new Vector2(x, y);
+            enemy.transform.position = enemyPos;
+
+        }
+
 
     }
 }
